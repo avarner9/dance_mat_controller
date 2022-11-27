@@ -6,7 +6,7 @@
 #include "stm32f405.h"
 
 #include "clock.h"
-#include "uart.h"
+#include "uart_dma.h"
 #include "i2c.h"
 
 
@@ -27,7 +27,7 @@ void blink_indicate(size_t n)
 int main(void)
 {
     initialize_clock();
-    //initialize_uart();
+    initialize_dma_uart();
 
     RCC_AHB1ENR |= 0x00000004;
     GPIOC_MODER |= 0x00000050;
@@ -43,6 +43,7 @@ int main(void)
 
     while (true)
     {
+        process_dma_uart();
         GPIOC_ODR = 0x00000002;
         delay1s();
         GPIOC_ODR = 0x00000000;

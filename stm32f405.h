@@ -7,6 +7,7 @@
 #define RCC_CFGR      (*(volatile uint32_t *)0x40023808)
 #define RCC_AHB1ENR   (*(volatile uint32_t *)0x40023830)
 #define RCC_APB1ENR   (*(volatile uint32_t *)0x40023840)
+#define RCC_APB2ENR   (*(volatile uint32_t *)0x40023844)
 
 //incomplete
 #define GPIOB_MODER   (*(volatile uint32_t *)0x40020400)
@@ -19,6 +20,7 @@
 //incomplete
 #define GPIOC_MODER   (*(volatile uint32_t *)0x40020800)
 #define GPIOC_ODR     (*(volatile uint32_t *)0x40020814)
+#define GPIOC_AFRL    (*(volatile uint32_t *)0x40020820)
 
 //incomplete
 #define TIM2_CR1      (*(volatile uint32_t *)0x40000000)
@@ -52,4 +54,23 @@
 
 //incomplete
 #define FLASH_ACR     (*(volatile uint32_t *)0x40023C00)
+
+
+//complete
+#define USART6_SR       (*(volatile uint32_t *)0x40011400)
+#define USART6_DR       (*(volatile uint32_t *)0x40011404)
+#define USART6_BRR      (*(volatile uint32_t *)0x40011408)
+#define USART6_CR1      (*(volatile uint32_t *)0x4001140C)
+#define USART6_CR2      (*(volatile uint32_t *)0x40011410)
+#define USART6_CR3      (*(volatile uint32_t *)0x40011414)
+#define USART6_GTPR     (*(volatile uint32_t *)0x40011418)
+
+//incomplete
+#define DMA2_LISR       (*(volatile uint32_t *)0x40026400)
+#define DMA2_HISR       (*(volatile uint32_t *)0x40026404)
+#define DMA2_HIFCR      (*(volatile uint32_t *)0x4002640C)
+#define DMA2_S7CR       (*(volatile uint32_t *)0x400264B8)
+#define DMA2_S7NDTR     (*(volatile uint32_t *)0x400264BC)
+#define DMA2_S7PAR      (*(volatile uint32_t *)0x400264C0)
+#define DMA2_S7M0AR     (*(volatile uint32_t *)0x400264C4)
 
