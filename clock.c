@@ -22,8 +22,8 @@ void delay1s(void)
     else
     {
         //TODO: use a proper timer
-        uint32_t end_time = get_time_ms() + 1000000;
-        while (((int32_t)(get_time_ms() - end_time)) < 0)
+        uint32_t end_time = get_time_us() + 1000000;
+        while (((int32_t)(get_time_us() - end_time)) < 0)
             ;
     }
 }
@@ -114,7 +114,7 @@ void initialize_clock(void)
     clock_initialized = true;
 }
 
-uint32_t get_time_ms(void)
+uint32_t get_time_us(void)
 {
     return TIM2_CNT;
 }

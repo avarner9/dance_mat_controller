@@ -41,40 +41,28 @@ int main(void)
 
     GPIOC_ODR = 0x00000000;
 
+
+    uint32_t t_next_led = get_time_us();
+    bool led_on = false;
+
     while (true)
     {
         process_dma_uart();
-        GPIOC_ODR = 0x00000002;
-        delay1s();
-        GPIOC_ODR = 0x00000000;
-        delay1s();
-        //GPIOC_ODR |= 0x00000008;
-        //GPIOC_ODR |= 0x00000004;
-        
-        /*
-        process_ir_input();
-        if (get_time_from_last_capture() > 400000)
+        if (((int32_t)(get_time_us() - t_next_led)) >= 0)
         {
-            set_led_g(true);
-            finish_message();
-            if (get_overrun())
+            led_on = !led_on;
+            t_next_led += 1000000;
+            if (led_on)
             {
-                set_led_y(true);
+                GPIOC_ODR = 0x00000002;
+                i2c_write(0xA6, 0x00);
             }
-
-            struct nec_message m;
-            decode_nec_message(&m);
-            
-            print_msg("msg: ", m.type, "");
-            print_msg(", ", m.address, "");
-            print_msg(", ", m.command, "\n");
-            if (m.num_errors > 0)
-                print_msg("(errors: ", m.num_errors, ")\n");
-            
-            bitbang2((uint8_t *)&m, sizeof(m));
-
-            set_led_g(false);
-        }*/
+            else
+            {
+                GPIOC_ODR = 0x00000000;
+                i2c_write(0xA6, 0xFF);
+            }
+        }
     }
 }
 

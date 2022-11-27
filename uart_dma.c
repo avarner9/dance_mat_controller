@@ -80,6 +80,11 @@ void dma_uart_flush(void)
     while (buf_o != NULL)
         process_dma_uart();
 }
+bool dma_uart_try_flush(void)
+{
+    process_dma_uart();
+    return buf_o == NULL;
+}
 
 static void dma_uart_queue_data(const void * d, size_t n)
 {
