@@ -49,7 +49,7 @@ void initialize_clock(void)
 
 
 
-    //set AHB prescaler to 1, relative to system clock (36MHz)
+    //set AHB prescaler to 1, relative to system clock (144MHz)
     RCC_CFGR = (RCC_CFGR & 0xFFFFFF0F);
 
     //enable external crystal oscillator (12MHz)
