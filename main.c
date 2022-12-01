@@ -51,16 +51,16 @@ int main(void)
         if (((int32_t)(get_time_us() - t_next_led)) >= 0)
         {
             led_on = !led_on;
-            t_next_led += 1000000;
+            t_next_led += 500000;
             if (led_on)
             {
                 GPIOC_ODR = 0x00000002;
-                i2c_write(0xA6, 0x00);
+                i2c_write(0xA6, 0x04);
             }
             else
             {
                 GPIOC_ODR = 0x00000000;
-                i2c_write(0xA6, 0xFF);
+                i2c_write(0xA6, 0x00);
             }
         }
     }

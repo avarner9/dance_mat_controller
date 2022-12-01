@@ -131,6 +131,7 @@ bool i2c_write(uint8_t addr, uint8_t data)
     }
     send_stop();
     //TODO: read from page 849 starting at "Master Receiver"
+    print_str("i2c: transaction succesful.\n");
     return true;
 }
 
