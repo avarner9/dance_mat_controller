@@ -37,11 +37,10 @@ void initialize_dma_uart(void)
     buf2.used = 0;
     buf1.next = &buf2;
     buf2.next = &buf1;
-    memset(buf1.buffer, DMA_BUFFER_SIZE, '7');
-    memset(buf2.buffer, DMA_BUFFER_SIZE, '7');
+    //memset(buf1.buffer, '7', DMA_BUFFER_SIZE);
+    //memset(buf2.buffer, '7', DMA_BUFFER_SIZE);
     buf_i = &buf1;
     initialize_uart();
-
     print_str("===============================================================================\n");
     print_str("UART initialized\n");
     print_str("ddrcontroller v0.0\n");
@@ -76,9 +75,11 @@ void process_dma_uart(void)
 
 void dma_uart_flush(void)
 {
-    process_dma_uart();
-    while (buf_o != NULL)
+    do
+    {
         process_dma_uart();
+    }
+    while (buf_o != NULL);
 }
 bool dma_uart_try_flush(void)
 {
@@ -139,13 +140,13 @@ static void dma_uart_transmit(const void * d, size_t n)
 static bool dma_is_complete(void)
 {
     bool retval = ((DMA2_HISR & 0x08000000) != 0);
-
-    //clear transfer complete flag
-    DMA2_HIFCR |= 0x08000000;
-
+    if (retval)
+    {
+        //clear transfer complete flag
+        DMA2_HIFCR |= 0x08000000;
+    }
     return retval;
 }
-
 
 
 void print_char(const char c)
