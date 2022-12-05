@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "i2c.h"
 #include "stm32f405.h"
 #include "clock.h"
@@ -78,13 +80,13 @@ print_hex_register(I2C1_TRISE);
 print_str("\n");
 }
 
-bool i2c_write(uint8_t addr, uint8_t data)
+bool i2c_write(uint8_t addr, uint8_t reg_addr, uint8_t data)
 {
     uint32_t end_time = get_time_us() + MAX_I2C_DURATION_US;
 
     send_start();
     //send slave address
-    I2C1_DR = (addr & 0xFE); //LSB indicates read/write mode. 0 is write, 1 is read.
+    I2C1_DR = (addr << 1); //LSB indicates read/write mode. 0 is write, 1 is read.
 
     //wait for slave address to finish transmitting
     while ((I2C1_SR1 & 0x00000002) == 0)
@@ -107,10 +109,14 @@ bool i2c_write(uint8_t addr, uint8_t data)
     I2C1_SR1;
     I2C1_SR2;
 
-    //while loop start here, for multiple data
+    char data_buf[2];
+    size_t data_len = 2;
+    data_buf[0] = reg_addr;
+    data_buf[1] = data;
+    for (size_t i = 0; i < data_len; i++)
     {
         //send data byte
-        I2C1_DR = data;
+        I2C1_DR = data_buf[i];
 
         //wait for data to finish transmitting
         while ((I2C1_SR1 & 0x00000080) == 0)

@@ -10,20 +10,6 @@
 #include "i2c.h"
 
 
-/*
-void blink_indicate(size_t n)
-{
-    for (size_t i = 0; i < n; i++)
-    {
-        set_led_g(true);
-        delay();
-        set_led_g(false);
-        delay();
-    }
-}
-*/
-
-
 int main(void)
 {
     initialize_clock();
@@ -44,6 +30,8 @@ int main(void)
 
     uint32_t t_next_led = get_time_us();
     bool led_on = false;
+    uint8_t slave_led = 5;
+    const uint8_t slave_led_states[6] = {1, 2, 4, 3, 5, 6};
 
     while (true)
     {
@@ -55,22 +43,17 @@ int main(void)
             if (led_on)
             {
                 GPIOC_ODR = 0x00000002;
-                i2c_write(0xA6, 0x04);
             }
             else
             {
                 GPIOC_ODR = 0x00000000;
-                i2c_write(0xA6, 0x00);
             }
+            slave_led++;
+            slave_led %= 6;
+            i2c_write(0x00, 0x09, slave_led_states[slave_led]);
         }
     }
 }
-
-
-
-
-
-
 
 
 void * memset(void * ptr1, int c, size_t length)
